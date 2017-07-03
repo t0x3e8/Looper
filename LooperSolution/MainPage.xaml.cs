@@ -24,33 +24,45 @@ namespace LooperSolution
     public sealed partial class MainPage : Page
     {
         DispatcherTimer dt = new DispatcherTimer();
+        bool isLooperRunning = false;
 
         public MainPage()
         {
             this.InitializeComponent();
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private async void btnStartStop_Click(object sender, RoutedEventArgs e)
         {
-            var pauseInterval = this.ReadPauseInterval();
-            var actionInterval = this.ReadActionInterval();
-            MediaElement player = new MediaElement();
-            Windows.Storage.StorageFolder assetsFolder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
-            Windows.Storage.StorageFile sound = await assetsFolder.GetFileAsync("boom.wav");
-            var soundStream = await sound.OpenReadAsync();
-            player.SetSource(soundStream, "");
-
-            if (actionInterval > 0)
+            if (isLooperRunning)
             {
-                this.dt.Interval = TimeSpan.FromSeconds(actionInterval);
-                this.dt.Tick += async (dtSender, dtEvents) =>
-                {
-                    player.Play();
-                    await Task.Delay(TimeSpan.FromSeconds(pauseInterval));
-                    player.Play();
-                };
+                this.dt.Stop();
+                this.isLooperRunning = !this.isLooperRunning;
+                this.btnStartStop.Content = "Start";
+            }
+            else
+            {
+                var pauseInterval = this.ReadPauseInterval();
+                var actionInterval = this.ReadActionInterval();
+                MediaElement player = new MediaElement();
+                Windows.Storage.StorageFolder assetsFolder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
+                Windows.Storage.StorageFile sound = await assetsFolder.GetFileAsync("boom.wav");
+                var soundStream = await sound.OpenReadAsync();
+                player.SetSource(soundStream, "");
 
-                this.dt.Start();
+                if (actionInterval > 0)
+                {
+                    this.dt.Interval = TimeSpan.FromSeconds(actionInterval);
+                    this.dt.Tick += async (dtSender, dtEvents) =>
+                    {
+                        player.Play();
+                        await Task.Delay(TimeSpan.FromSeconds(pauseInterval));
+                        player.Play();
+                    };
+
+                    this.dt.Start();
+                    this.isLooperRunning = !this.isLooperRunning;
+                    this.btnStartStop.Content = "Stop";
+                }
             }
         }
 
@@ -62,8 +74,8 @@ namespace LooperSolution
 
         private int ReadPauseInterval()
         {
-            string actionIntervalText = this.cbPauseDigit3.SelectionBoxItem.ToString() + this.cbPauseDigit2.SelectionBoxItem.ToString() + this.cbPauseDigit1.SelectionBoxItem.ToString();
-            return int.Parse(actionIntervalText);
+            //string actionIntervalText = this.cbPauseDigit3.SelectionBoxItem.ToString() + this.cbPauseDigit2.SelectionBoxItem.ToString() + this.cbPauseDigit1.SelectionBoxItem.ToString();
+            return 5;// int.Parse(actionIntervalText);
         }
     }
 }

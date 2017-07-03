@@ -11,7 +11,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="100" />
             <RowDefinition Height="50" />
-            <RowDefinition Height="100" />
+            <RowDefinition Height="150" />
             <RowDefinition Height="50" />
             <RowDefinition Height="100" />
             <RowDefinition Height="100" />
@@ -20,8 +20,17 @@
         <TextBlock Text="Infinite loop" Grid.Row="0" Style="{ThemeResource HeaderTextBlockStyle}" TextAlignment="Center" VerticalAlignment="Center" />
         
         <TextBlock Text="Set pause time " Grid.Row="1" TextAlignment="Left" VerticalAlignment="Center" Margin="10 0" Style="{ThemeResource TitleTextBlockStyle}" />
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
+        <Grid Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <ContentControl Background="Transparent" VerticalAlignment="Stretch">
+                <Grid>
+                    <Border CornerRadius="90" Height="130" Width="130" Background="Transparent" 
+                    BorderBrush="Black" BorderThickness="1"
+                           >
+                        <TextBlock Text="1min 30 sec" Foreground="Black" VerticalAlignment="Center" FontSize="12" TextAlignment="Center"/>
+                    </Border>
+                </Grid>
+            </ContentControl>
+            <!--<Grid.ColumnDefinitions>
                 <ColumnDefinition Width="20*" />
                 <ColumnDefinition Width="20*" />
                 <ColumnDefinition Width="20*" />
@@ -69,8 +78,9 @@
                     <ComboBoxItem>8</ComboBoxItem>
                     <ComboBoxItem>9</ComboBoxItem>
                 </ComboBox.Items>
-            </ComboBox>
+            </ComboBox>-->
         </Grid>
+        
         <TextBlock Text="Set action time " Grid.Row="3" TextAlignment="Left" VerticalAlignment="Center" Margin="10 0" Style="{ThemeResource TitleTextBlockStyle}"  />
         <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>
@@ -123,6 +133,11 @@
                 </ComboBox.Items>
             </ComboBox>
         </Grid>
-        <Button Grid.Row="5" Content="Start" Style="{ThemeResource TextBlockButtonStyle}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="150" Height="75" Background="#a1a1ff" Click="Button_Click" />
+        
+        <Button Grid.Row="5" x:Name="btnStartStop" Content="Start" Style="{ThemeResource TextBlockButtonStyle}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="150" Height="75" Background="#a1a1ff" Click="btnStartStop_Click" />
+
+        <Grid Grid.Row="6" Background="AliceBlue">
+            <TextBlock Text="5 sec" TextAlignment="Center" VerticalAlignment="Center" FontSize="80"  />
+        </Grid>
     </Grid>
 </Page>
