@@ -21,15 +21,56 @@
         
         <TextBlock Text="Set pause time " Grid.Row="1" TextAlignment="Left" VerticalAlignment="Center" Margin="10 0" Style="{ThemeResource TitleTextBlockStyle}" />
         <Grid Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <ContentControl Background="Transparent" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <ContentControl Background="Transparent" VerticalAlignment="Stretch" ManipulationStarted="ContentControl_ManipulationStarted"
+                            ManipulationMode="TranslateY" ManipulationDelta="ContentControl_ManipulationDelta"
+                            ManipulationCompleted="ContentControl_ManipulationCompleted">
+                <ContentControl.DataContext>
+                    <local:ViewModel />
+                </ContentControl.DataContext>
                 <Grid>
                     <Border CornerRadius="90" Height="130" Width="130" Background="Transparent" 
-                    BorderBrush="Black" BorderThickness="1"
-                           >
-                        <TextBlock Text="1min 30 sec" Foreground="Black" VerticalAlignment="Center" FontSize="12" TextAlignment="Center"/>
+                    BorderBrush="Black" BorderThickness="1">
+                        <TextBlock x:Name="pauseText" Foreground="Black" VerticalAlignment="Center" FontSize="12" TextAlignment="Center"/>
                     </Border>
                 </Grid>
             </ContentControl>
+            <Grid Grid.Column="1">
+                <Border CornerRadius="90" Height="130" Width="130" Background="Transparent" 
+                    BorderBrush="Black" BorderThickness="1">
+                    <TextBlock x:Name="pauseText2" Foreground="Black" VerticalAlignment="Center" FontSize="12" TextAlignment="Center"/>
+                </Border>
+            </Grid>
+            <Grid Grid.Column="2">
+                <Grid RenderTransformOrigin="0.5,0.5">
+                    <Grid.RenderTransform>
+                        <CompositeTransform Rotation="{Binding Angle}"/>
+                    </Grid.RenderTransform>
+                    <Path Width="60" Height="100" VerticalAlignment="Top" HorizontalAlignment="Center" Stretch="Fill" Fill="#FFFFFFFF" Data="F1 M 254,99C 298.735,99 335,135.265 335,180C 335,224.735 253,349.667 253,349.667C 253,349.667 173,224.735 173,180C 173,135.265 209.265,99 254,99 Z "/>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="18" Foreground="Black" 
+                    RenderTransformOrigin="0.5,0.5">
+                        <TextBlock.Inlines>
+                            <Run Text="{Binding Value}" /> m
+                        </TextBlock.Inlines>
+                        <TextBlock.RenderTransform>
+                            <CompositeTransform TranslateY="17" Rotation="{Binding Angle}"/>
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                </Grid>
+                <!--<Border CornerRadius="90" Height="130" Width="130" Background="Transparent" 
+                    BorderBrush="Black" BorderThickness="1">
+                    <Grid>
+                        <TextBlock x:Name="pauseText3" Foreground="Black" VerticalAlignment="Center" FontSize="20" TextAlignment="Center"/>
+                    </Grid>
+
+                </Border>-->
+            </Grid>
+
             <!--<Grid.ColumnDefinitions>
                 <ColumnDefinition Width="20*" />
                 <ColumnDefinition Width="20*" />
